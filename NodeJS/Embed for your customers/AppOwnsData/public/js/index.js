@@ -8,11 +8,13 @@ let reportContainer = $("#report-container").get(0);
 
 // Initialize iframe for embedding report
 powerbi.bootstrap(reportContainer, { type: "report" });
+const urlParams = new URLSearchParams(window.location.search);
+const reportId = urlParams.get('report_id');
 
 // AJAX request to get the report details from the API and pass it to the UI
 $.ajax({
     type: "GET",
-    url: "/getEmbedToken",
+    url: "/getEmbedToken?report_id=" + reportId,
     dataType: "json",
     success: function (embedData) {
 

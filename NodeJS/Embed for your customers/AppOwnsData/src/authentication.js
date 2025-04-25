@@ -16,6 +16,7 @@ const getAccessToken = async function () {
             authority: `${config.authorityUrl}${config.tenantId}`,
         }
     };
+    console.log("msalConfig: ", msalConfig);
 
     // Check for the MasterUser Authentication
     if (config.authenticationMode.toLowerCase() === "masteruser") {
@@ -26,11 +27,14 @@ const getAccessToken = async function () {
             username: config.pbiUsername,
             password: config.pbiPassword
         };
+    
+        console.log("usernamePasswordRequest: ", usernamePasswordRequest);
 
         return clientApplication.acquireTokenByUsernamePassword(usernamePasswordRequest);
 
     };
 
+    
     // Service Principal auth is the recommended by Microsoft to achieve App Owns Data Power BI embedding
     if (config.authenticationMode.toLowerCase() === "serviceprincipal") {
         msalConfig.auth.clientSecret =  config.clientSecret

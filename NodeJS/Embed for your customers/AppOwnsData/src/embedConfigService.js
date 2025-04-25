@@ -14,13 +14,13 @@ const fetch = require('node-fetch');
  * Generate embed token and embed urls for reports
  * @return Details like Embed URL, Access token and Expiry
  */
-async function getEmbedInfo() {
+async function getEmbedInfo(report_id) {
 
     // Get the Report Embed details
     try {
 
         // Get report details and embed token
-        const embedParams = await getEmbedParamsForSingleReport(config.workspaceId, config.reportId);
+        const embedParams = await getEmbedParamsForSingleReport(config.workspaceId, report_id);
 
         return {
             'accessToken': embedParams.embedToken.token,
@@ -29,7 +29,7 @@ async function getEmbedInfo() {
             'status': 200
         };
     } catch (err) {
-        const errorBody = JSON.stringify(await err.json());
+        const errorBody = JSON.stringify(await err.text());
 
         return {
             'status': err.status,
@@ -54,6 +54,11 @@ async function getEmbedParamsForSingleReport(workspaceId, reportId, additionalDa
         method: 'GET',
         headers: headers,
     })
+    console.log(headers)
+
+    console.log("Report API response: ", result);
+    console.log("Report content: ", result.body);
+    // Check if the response is ok
 
     if (!result.ok) {
         throw result;
